@@ -28,6 +28,10 @@ form.addEventListener("change", function(e) {
 
 form.addEventListener("submit", function(e) {
   e.preventDefault();
+  const pixelCanvas = document.querySelector("#pixelCanvas");
+  if (pixelCanvas.hasChildNodes()) {
+    pixelCanvas.innerHTML = "";
+  }
   makeGrid(heightValue, widthValue);
 });
 
@@ -43,9 +47,18 @@ function makeGrid(height, width) {
     }
     table.appendChild(tableRow);
   }
+
   pixelCanvas.appendChild(table);
 }
 
-// pixelCanvas.addEventListener("click", function(e) {
+pixelCanvas.addEventListener("click", function(e) {
+  let target = e.target;
 
-// })
+  if (target.tagName !== "TD") return;
+  highlight(target);
+});
+
+function highlight(td) {
+  selectedTd = td;
+  selectedTd.style.backgroundColor = color;
+}
