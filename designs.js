@@ -27,20 +27,25 @@ form.addEventListener("change", function(e) {
 // When size is submitted by the user, call makeGrid()
 
 form.addEventListener("submit", function(e) {
+  //Prevents default rerendering of the page on submit
   e.preventDefault();
   const pixelCanvas = document.querySelector("#pixelCanvas");
+  // In case a grid is already rendered
   if (pixelCanvas.hasChildNodes()) {
     pixelCanvas.innerHTML = "";
   }
   makeGrid(heightValue, widthValue);
 });
 
+// Makes a grid - Duh!
 function makeGrid(height, width) {
   // Your code goes here!
   const pixelCanvas = document.querySelector("#pixelCanvas");
   const table = document.createElement("table");
   for (let i = 0; i < height; i += 1) {
+    // For each height value - a row is made
     let tableRow = document.createElement("tr");
+    // For each width value - a 'td' is injected into 'tr'
     for (let y = 0; y < width; y += 1) {
       let tableData = document.createElement("td");
       tableRow.appendChild(tableData);
@@ -50,14 +55,15 @@ function makeGrid(height, width) {
 
   pixelCanvas.appendChild(table);
 }
-
+// Click event listener for 'td'
 pixelCanvas.addEventListener("click", function(e) {
-  let target = e.target;
-
-  if (target.tagName !== "TD") return;
-  highlight(target);
+  let td = event.target.closest("td");
+  if (!td) return;
+  let table = document.querySelector("table");
+  if (!table.contains(td)) return;
+  highlight(td);
 });
-
+// Highlights the selected 'td'
 function highlight(td) {
   selectedTd = td;
   selectedTd.style.backgroundColor = color;
